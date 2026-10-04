@@ -1,13 +1,11 @@
 # Steves-LinkedIn-BadUSB
-Contains a payload and all the necessary files for a Raspberry-Pi Pico W to use keystroke injection to open up any LinkedIn URL, or any URL! PLEASE READ THE README FOR INSTRUCTIONS
 
-# Steves-LinkedIn-BadUSB
+Contains payloads and all the necessary files for a Raspberry Pi Pico W to use keystroke injection to open a LinkedIn profile or instantly download and display a hosted resume PDF. 
 
-A BadUSB payload built for the **Raspberry Pi Pico W**. This script acts as a virtual keyboard to rapidly open a LinkedIn profile on a target computer, bypassing the need for someone to manually type your URL. 
-
-This is an excellent physical networking tool for career fairs, cybersecurity conferences, or quickly sharing a resume profile with recruiters. It includes payloads for both macOS and Windows.
+This is an excellent physical networking tool for career fairs, cybersecurity conferences, or quickly sharing a profile with recruiters. It includes payloads for macOS (LinkedIn or Resume PDF) and Windows (LinkedIn).
 
 ## 🛠 Prerequisites
+
 * **Hardware:** Raspberry Pi Pico W
 * **Cable:** A Micro-USB cable capable of data transfer (not just power/charging)
 * **Target OS:** macOS or Windows
@@ -33,13 +31,17 @@ Because the Pico W needs to emulate a keyboard, you need the Adafruit HID librar
 5. Paste it into the `lib` folder on your `CIRCUITPY` drive.
 
 ### 3. Load and Configure Your Payload
-In this repository, you will find two payload files: `payload(mac).` and `payload(windows).`. The periods at the end of the filenames are an intentional safety measure to prevent the code from executing automatically before you have configured it.
+In this repository, you will find three payload files: `payload(mac)`, `payload(windows)`, and `payload(resume-mac)`. The (...) at the end of the filenames are an intentional safety measure to prevent the code from executing automatically before you have configured it. Please choose a file you wish to use as a payload, and rename that one to payload.
 
-1. Copy `code.py` and the two payload files to the root of your `CIRCUITPY` drive.
-2. Decide whether you want to target macOS or Windows machines, and open the corresponding payload file in a text editor.
-3. Find the URL in the script and replace it with your own LinkedIn profile link. Save the file.
+1. Copy `code.py` and your chosen payload file(s) to the root of your `CIRCUITPY` drive.
+2. **For LinkedIn Payloads (`mac` or `windows`):** Open the file in a text editor, find the URL in the script, and replace it with your own LinkedIn profile link.
+3. **For the Resume Payload (`resume-mac`):** 
+    * Upload your resume PDF directly to this GitHub repository.
+    * Click on your PDF file in GitHub, then click the **Download raw file** button (the tray icon with a downward arrow) to open the raw file in your browser.
+    * Copy that specific URL from the address bar (it should start with `raw.githubusercontent.com`).
+    * Open `payload(resume-mac).` in a text editor and replace `YOUR_RAW_GITHUB_LINK_HERE` with your copied URL.
 4. **CRITICAL STEP:** Rename your chosen payload file to exactly `payload` (delete the OS name and the period at the end). The `code.py` script specifically looks for a file named exactly `payload` to run.
-5. You can delete the unused payload file from the `CIRCUITPY` drive. 
+5. You can delete the unused payload files from the `CIRCUITPY` drive. 
 
 *Note: Once the file is renamed to `payload`, the Pico W will immediately act as a keyboard upon receiving power. To edit the files safely in the future without triggering the payload, you will need to interrupt the script or enter safe mode.*
 
