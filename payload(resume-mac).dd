@@ -1,0 +1,19 @@
+DELAY 5000
+
+REM Open Spotlight Search
+GUI SPACE
+DELAY 500
+
+REM Search for and launch Terminal
+STRING terminal
+DELAY 500
+ENTER
+DELAY 1500
+
+REM Download the PDF to the /tmp directory and open it immediately
+STRING curl -sL -o /tmp/resume.pdf "https://raw.githubusercontent.com/stevenhainley/Steves-LinkedIn-BadUSB/main/Steven_Hainley_Resume.pdf" && open /tmp/resume.pdf
+ENTER
+
+REM Close the Terminal window behind it
+DELAY 500
+GUI w
