@@ -35,7 +35,7 @@ In this repository, you will find three payload files: `payload(mac)`, `payload(
 
 1. Copy `code.py` and your chosen payload file(s) to the root of your `CIRCUITPY` drive.
 2. **For LinkedIn Payloads (`mac` or `windows`):** Open the file in a text editor, find the URL in the script, and replace it with your own LinkedIn profile link.
-3. **For the Resume Payload (`resume-mac`):** 
+3. **For the Resume Payload (`resume-mac`):** (can be re-written with AI for windows if needed and you don't know how to yourself)
     * Upload your resume PDF directly to this GitHub repository.
     * Click on your PDF file in GitHub, then click the **Download raw file** button (the tray icon with a downward arrow) to open the raw file in your browser.
     * Copy that specific URL from the address bar (it should start with `raw.githubusercontent.com`).
