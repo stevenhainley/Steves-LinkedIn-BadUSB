@@ -1,0 +1,22 @@
+DELAY 5000
+
+REM Open Spotlight Search
+GUI SPACE
+DELAY 500
+
+REM Search for and launch Terminal
+STRING terminal
+ENTER
+
+REM Give Terminal time to open (adjust this delay if the Mac is slower)
+DELAY 1500
+
+REM Use the macOS 'open' command to launch the URL in the default browser
+STRING open https://www.linkedin.com/in/steven-hainley-836262268/
+ENTER
+
+REM Optional: Close the Terminal window behind it
+DELAY 500
+GUI w
+
+
