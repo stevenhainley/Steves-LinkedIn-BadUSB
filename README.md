@@ -1,49 +1,75 @@
-# Steves-LinkedIn-BadUSB
+# Steve's LinkedIn & Resume USB
 
-Contains payloads and all the necessary files for a Raspberry Pi Pico W to use keystroke injection to open a LinkedIn profile or instantly download and display a hosted resume PDF. 
+I built this Raspberry Pi Pico W project to share my LinkedIn profile or résumé with a short keyboard sequence. The Pico acts as a USB keyboard and runs a selected payload when it starts up.
 
-This is an excellent physical networking tool for career fairs, cybersecurity conferences, or quickly sharing a profile with recruiters. It includes payloads for macOS (LinkedIn or Resume PDF) and Windows (LinkedIn).
+The Windows payload downloads my résumé and opens it in Microsoft Edge. The macOS payloads open either LinkedIn or a downloaded résumé.
 
-## 🛠 Prerequisites
+## What you need
 
-* **Hardware:** Raspberry Pi Pico W
-* **Cable:** A Micro-USB cable capable of data transfer (not just power/charging)
-* **Target OS:** macOS or Windows
+- A Raspberry Pi Pico W and a data-capable Micro-USB cable.
+- CircuitPython 8 or newer, with an Adafruit HID library bundle matching your CircuitPython major version.
+- A US keyboard layout on the receiving computer; the script uses `KeyboardLayoutUS`.
+- An unlocked computer with permission to use it and an internet connection.
+- For the Windows résumé payload: Windows 10 or 11 with `curl.exe` and Microsoft Edge installed, and Edge's built-in PDF viewer enabled. No Adobe app or Adobe sign-in is needed for this workflow. Custom browser policies can prevent inline PDF viewing, so this is not guaranteed on every Windows configuration.
 
-## ⚙️ Setup & Flashing Guide
+## Set up the Pico
 
-Follow these steps to flash your Raspberry Pi Pico W and configure your custom payload.
+1. Hold **BOOTSEL** while connecting the Pico. Release it when the `RPI-RP2` drive appears.
+2. Download the [CircuitPython UF2 for Raspberry Pi Pico W](https://circuitpython.org/board/raspberry_pi_pico_w/) and copy it to `RPI-RP2`. The board restarts and mounts as `CIRCUITPY`.
+3. Download the matching [Adafruit CircuitPython Library Bundle](https://circuitpython.org/libraries). Copy its `lib/adafruit_hid` folder into `CIRCUITPY/lib/`.
+4. Copy this repository's `code.py` to the root of `CIRCUITPY`.
+5. Choose a payload, customize it, and copy it to that drive as **`payload.dd`**. Keep the `.dd` extension; the script looks for that exact filename. Enable file extensions in your file manager if necessary.
+6. Eject the drive and physically unplug the Pico. Connect it to the intended computer to run the payload.
 
-### 1. Install CircuitPython
-1. Hold down the **BOOTSEL** button on your Raspberry Pi Pico W.
-2. While holding the button, plug the Pico W into your computer's USB port. 
-3. Release the button. A new removable drive called `RPI-RP2` will appear on your computer.
-4. Download the latest version of [CircuitPython for the Pico W (UF2 file)](https://circuitpython.org/board/raspberry_pi_pico_w/).
-5. Drag and drop the downloaded `.uf2` file onto the `RPI-RP2` drive. 
-6. The drive will automatically disconnect and reconnect as a new drive named `CIRCUITPY`.
+| Repository file | Behavior |
+| --- | --- |
+| `payload(windows).dd` | Downloads the résumé to `%TEMP%\Steven_Hainley_Resume.pdf` and opens it in Edge |
+| `payload(resume-mac).dd` | Downloads the résumé to `/tmp/resume.pdf` and opens the default PDF viewer |
+| `payload(mac).dd` | Opens LinkedIn in the default browser |
 
-### 2. Install the Required Libraries
-Because the Pico W needs to emulate a keyboard, you need the Adafruit HID library.
-1. Download the [Adafruit CircuitPython Library Bundle](https://circuitpython.org/libraries).
-2. Extract the downloaded zip file.
-3. Open the `lib` folder inside the extracted bundle.
-4. Copy the `adafruit_hid` folder.
-5. Paste it into the `lib` folder on your `CIRCUITPY` drive.
+Only the selected file should be named `payload.dd`. Leave the other payloads with their descriptive names.
 
-### 3. Load and Configure Your Payload
-In this repository, you will find three payload files: `payload(mac)`, `payload(windows)`, and `payload(resume-mac)`. The (...) at the end of the filenames are an intentional safety measure to prevent the code from executing automatically before you have configured it. Please choose a file you wish to use as a payload, and rename that one to payload.
+## Use your own résumé
 
-1. Copy `code.py` and your chosen payload file(s) to the root of your `CIRCUITPY` drive.
-2. **For LinkedIn Payloads (`mac` or `windows`):** Open the file in a text editor, find the URL in the script, and replace it with your own LinkedIn profile link.
-3. **For the Resume Payload (`resume-mac`):** (can be re-written with AI for windows if needed and you don't know how to yourself)
-    * Upload your resume PDF directly to this GitHub repository.
-    * Click on your PDF file in GitHub, then click the **Download raw file** button (the tray icon with a downward arrow) to open the raw file in your browser.
-    * Copy that specific URL from the address bar (it should start with `raw.githubusercontent.com`).
-    * Open `payload(resume-mac).` in a text editor and replace `YOUR_RAW_GITHUB_LINK_HERE` with your copied URL.
-4. **CRITICAL STEP:** Rename your chosen payload file to exactly `payload` (delete the OS name and the period at the end). The `code.py` script specifically looks for a file named exactly `payload` to run.
-5. You can delete the unused payload files from the `CIRCUITPY` drive. 
+1. Upload a PDF to your own GitHub repository, or another host providing a public, direct HTTPS download link. Remember that anyone with access to the public link can read the PDF.
+2. On GitHub, open the PDF and copy its raw download URL. A typical URL looks like:
 
-*Note: Once the file is renamed to `payload`, the Pico W will immediately act as a keyboard upon receiving power. To edit the files safely in the future without triggering the payload, you will need to interrupt the script or enter safe mode.*
+   ```text
+   https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/Your_Resume.pdf
+   ```
 
-## ⚠️ Disclaimer
-This project is for educational and personal networking purposes only. Only plug this device into machines you own or have explicit permission to use.
+3. In `payload(windows).dd`, replace the quoted `https://raw.githubusercontent.com/stevenhainley/...` URL on the `STRING curl.exe` line with your own URL. Keep the surrounding quotes. Use a direct PDF link rather than the GitHub `blob` preview page. Keep the repository's actual branch name and URL-encode spaces in filenames as `%20`.
+4. Optionally change `Steven_Hainley_Resume.pdf` to your preferred local filename. Change **both** occurrences: the curl output path and the Edge opening path.
+5. Copy your customized file to the Pico as `payload.dd`.
+
+The Windows command has this structure:
+
+```bat
+curl.exe -fL -o "%TEMP%\Your_Resume.pdf" "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/Your_Resume.pdf" && start "" msedge.exe --new-window "%TEMP%\Your_Resume.pdf" && exit
+```
+
+`curl.exe` downloads the file, follows redirects, and reports HTTP errors. `&&` opens the PDF only if the download succeeds. Edge is launched explicitly instead of using the system's default PDF application. Command Prompt closes after the launch command succeeds.
+
+For macOS, replace the résumé URL in `payload(resume-mac).dd`; its `/tmp/resume.pdf` destination can stay as it is. For LinkedIn, replace the profile URL in `payload(mac).dd`.
+
+## Timing and editing
+
+The Windows payload waits five seconds after startup, opens Command Prompt, then waits four seconds before typing the download command. Increase the relevant `DELAY` if a slower computer needs more time.
+
+`code.py` disables automatic reloads and skips payload execution on a file-save reload. Reconnecting or resetting the board runs the payload again. **Ejecting CIRCUITPY does not disconnect the USB keyboard or stop an already-running payload; physically unplug it to stop typing.** A startup can still begin typing while you are trying to edit, so interrupt the script through the CircuitPython serial console before editing an armed device, or connect in CircuitPython safe mode.
+
+Key names are case-insensitive, so `GUI R` and `GUI r` both work. Text after `STRING` keeps its original case.
+
+## Troubleshooting
+
+- **Windows search opens instead of Run:** use this repository's updated `code.py`; the earlier parser ignored lowercase key names.
+- **An empty terminal opens:** increase the delay after `STRING cmd` / `ENTER` before the curl command is typed.
+- **Nothing happens:** check that the selected file is exactly `payload.dd`, the cable supports data, and the required HID library is installed. Inspect the serial console for Python errors.
+- **The PDF does not open:** check the raw URL, connectivity, and Edge installation/settings. A failed download leaves Command Prompt open so its error is visible.
+- **Commands appear in the wrong application:** unplug the Pico. Confirm the operating system, keyboard layout, and timing before reconnecting.
+
+## Changes and contributions
+
+See [CHANGELOG.md](CHANGELOG.md) for the Windows résumé update and validation notes. To contribute, open a pull request describing your change, the OS and CircuitPython version you used, and what you tested. Hardware tests are especially useful; do not mark a payload as tested on Windows based only on reading its commands.
+
+Only use the device on computers you own or have explicit permission to use.

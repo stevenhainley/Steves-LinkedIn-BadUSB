@@ -1,3 +1,11 @@
+import supervisor
+
+supervisor.runtime.autoreload = False
+
+# Run only after startup, never because files were saved over USB.
+if supervisor.runtime.run_reason != supervisor.RunReason.STARTUP:
+    raise SystemExit
+
 import time
 import usb_hid
 from adafruit_hid.keyboard import Keyboard
@@ -42,7 +50,7 @@ try:
                 time.sleep(int(args) / 1000)
             else:
                 keys_to_press = []
-                for key in line.split():
+                for key in line.upper().split():
                     if key in ducky_keys:
                         keys_to_press.append(ducky_keys[key])
                     elif hasattr(Keycode, key):

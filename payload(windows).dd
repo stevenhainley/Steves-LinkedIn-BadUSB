@@ -1,10 +1,13 @@
 DELAY 5000
 
-REM Open the Windows Run dialog (Win + R)
-GUI r
-DELAY 500
+REM Open Run and launch Command Prompt
+GUI R
+DELAY 1000
+STRING cmd
+ENTER
+DELAY 4000
 
-REM Type the URL directly into the Run box to open the default browser
-REM Replace the URL below with your own LinkedIn profile link
-STRING https://www.linkedin.com/in/steven-hainley-836262268/
+REM Download the resume, open it in Microsoft Edge, then close Command Prompt
+REM Replace the quoted HTTPS URL with the direct link to your own resume PDF
+STRING curl.exe -fL -o "%TEMP%\Steven_Hainley_Resume.pdf" "https://raw.githubusercontent.com/stevenhainley/Steves-LinkedIn-BadUSB/main/Steven_Hainley_Resume.pdf" && start "" msedge.exe --new-window "%TEMP%\Steven_Hainley_Resume.pdf" && exit
 ENTER
