@@ -1,0 +1,9 @@
+DELAY 5000
+
+REM Open the Windows Run dialog
+GUI R
+DELAY 1000
+
+REM Replace this URL with your own LinkedIn profile link if desired
+STRING https://www.linkedin.com/in/steven-hainley-836262268/
+ENTER

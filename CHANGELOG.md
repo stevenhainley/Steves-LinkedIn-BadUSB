@@ -1,8 +1,8 @@
 # Change report
 
-## 2026-10-06 — Windows default-browser link payload
+## 2026-10-06 — Windows LinkedIn profile payload
 
-Added `payload(link-windows).dd` as a separate option for opening any HTTP or HTTPS web link through Windows Run. It uses the computer's configured default browser and defaults to my portfolio URL. The existing Windows résumé payload still opens PDFs in Edge.
+Added `payload(linkedin-windows).dd` as a separate option for opening my LinkedIn profile through Windows Run. It uses the computer's configured default browser and defaults to `https://www.linkedin.com/in/steven-hainley-836262268/`. The existing Windows résumé payload still opens PDFs in Edge.
 
 Updated the README's payload table, URL customization instructions, and timing guidance. To use the new option, replace its `STRING` URL and copy the file to the Pico as `payload.dd`.
 
