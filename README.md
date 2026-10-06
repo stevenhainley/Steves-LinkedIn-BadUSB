@@ -68,6 +68,10 @@ Key names are case-insensitive, so `GUI R` and `GUI r` both work. Text after `ST
 - **The PDF does not open:** check the raw URL, connectivity, and Edge installation/settings. A failed download leaves Command Prompt open so its error is visible.
 - **Commands appear in the wrong application:** unplug the Pico. Confirm the operating system, keyboard layout, and timing before reconnecting.
 
+## A quick transparency note
+
+Parts of this README were written with AI help to save time. This is a personal project, and I'd rather spend more of that time building and tinkering than writing documentation. The setup instructions and testing limits are included so you can see what the project does and what still needs checking.
+
 ## Changes and contributions
 
 See [CHANGELOG.md](CHANGELOG.md) for the Windows résumé update and validation notes. To contribute, open a pull request describing your change, the OS and CircuitPython version you used, and what you tested. Hardware tests are especially useful; do not mark a payload as tested on Windows based only on reading its commands.
