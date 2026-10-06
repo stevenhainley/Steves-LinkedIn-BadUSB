@@ -2,7 +2,7 @@
 
 I built this Raspberry Pi Pico W project to share my LinkedIn profile or résumé with a short keyboard sequence. The Pico acts as a USB keyboard and runs a selected payload when it starts up.
 
-The Windows payload downloads my résumé and opens it in Microsoft Edge. The macOS payloads open either LinkedIn or a downloaded résumé.
+The Windows payloads either download my résumé and open it in Microsoft Edge, or open a web link in the computer's default browser. The macOS payloads open either LinkedIn or a downloaded résumé.
 
 ## What you need
 
@@ -23,11 +23,29 @@ The Windows payload downloads my résumé and opens it in Microsoft Edge. The ma
 
 | Repository file | Behavior |
 | --- | --- |
+| `payload(link-windows).dd` | Opens a customizable HTTP or HTTPS link in the default browser |
 | `payload(windows).dd` | Downloads the résumé to `%TEMP%\Steven_Hainley_Resume.pdf` and opens it in Edge |
 | `payload(resume-mac).dd` | Downloads the résumé to `/tmp/resume.pdf` and opens the default PDF viewer |
 | `payload(mac).dd` | Opens LinkedIn in the default browser |
 
 Only the selected file should be named `payload.dd`. Leave the other payloads with their descriptive names.
+
+## Open any web link on Windows
+
+Use `payload(link-windows).dd` to open your portfolio, LinkedIn profile, or another web page in the computer's default browser.
+
+1. Open that file in a text editor.
+2. Replace `https://stevenhainley.net/` on the `STRING` line with your full HTTP or HTTPS URL, including the scheme. Keep it on one line; URL-encode spaces as `%20`.
+3. Copy the customized file to `CIRCUITPY` as **`payload.dd`**, replacing the previously selected payload if needed.
+4. Physically unplug the Pico and reconnect it to the intended Windows computer.
+
+For example:
+
+```text
+STRING https://www.linkedin.com/in/YOUR_PROFILE/
+```
+
+This payload waits five seconds, opens **Win + R**, waits one second, types the URL, and presses Enter. Windows opens the configured default browser; the payload does not choose Edge or launch Command Prompt. It requires a configured default browser and an available Run dialog. Adjust `DELAY 1000` if Run needs longer to appear. Website sign-in requirements still apply.
 
 ## Use your own résumé
 
@@ -54,7 +72,7 @@ For macOS, replace the résumé URL in `payload(resume-mac).dd`; its `/tmp/resum
 
 ## Timing and editing
 
-The Windows payload waits five seconds after startup, opens Command Prompt, then waits four seconds before typing the download command. Increase the relevant `DELAY` if a slower computer needs more time.
+The Windows résumé payload waits five seconds after startup, opens Command Prompt, then waits four seconds before typing the download command. Increase the relevant `DELAY` if a slower computer needs more time.
 
 `code.py` disables automatic reloads and skips payload execution on a file-save reload. Reconnecting or resetting the board runs the payload again. **Ejecting CIRCUITPY does not disconnect the USB keyboard or stop an already-running payload; physically unplug it to stop typing.** A startup can still begin typing while you are trying to edit, so interrupt the script through the CircuitPython serial console before editing an armed device, or connect in CircuitPython safe mode.
 
@@ -74,6 +92,6 @@ Parts of this README were written with AI help to save time. This is a personal 
 
 ## Changes and contributions
 
-See [CHANGELOG.md](CHANGELOG.md) for the Windows résumé update and validation notes. To contribute, open a pull request describing your change, the OS and CircuitPython version you used, and what you tested. Hardware tests are especially useful; do not mark a payload as tested on Windows based only on reading its commands.
+See [CHANGELOG.md](CHANGELOG.md) for payload updates and validation notes. To contribute, open a pull request describing your change, the OS and CircuitPython version you used, and what you tested. Hardware tests are especially useful; do not mark a payload as tested on Windows based only on reading its commands.
 
 Only use the device on computers you own or have explicit permission to use.

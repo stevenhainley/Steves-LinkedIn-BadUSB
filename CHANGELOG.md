@@ -1,5 +1,13 @@
 # Change report
 
+## 2026-10-06 — Windows default-browser link payload
+
+Added `payload(link-windows).dd` as a separate option for opening any HTTP or HTTPS web link through Windows Run. It uses the computer's configured default browser and defaults to my portfolio URL. The existing Windows résumé payload still opens PDFs in Edge.
+
+Updated the README's payload table, URL customization instructions, and timing guidance. To use the new option, replace its `STRING` URL and copy the file to the Pico as `payload.dd`.
+
+Validation: checked the payload's key sequence and URL, README references, and diff formatting. No end-to-end Windows hardware test was performed. The default browser must be configured and the Windows Run dialog available.
+
 ## 2026-10-06 — Windows résumé payload
 
 ### Behavior
