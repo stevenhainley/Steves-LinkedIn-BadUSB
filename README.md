@@ -4,6 +4,8 @@ I built this Raspberry Pi Pico W project to share my LinkedIn profile or résum�
 
 The Windows payloads either download my résumé and open it in Microsoft Edge, or open my LinkedIn profile in the computer's default browser. The macOS payloads open either LinkedIn or a downloaded résumé.
 
+> **Looking for the defensive side?** I also built [**DuckyGuard 2.1**](https://github.com/stevenhainley/duckyguard) ([shindustries.co/duckyguard](https://shindustries.co/duckyguard/)), a free MIT-licensed macOS menu-bar app that detects BadUSB timing signatures and freezes newly plugged keyboards before they can type.
+
 ## What you need
 
 - A Raspberry Pi Pico W and a data-capable Micro-USB cable.
